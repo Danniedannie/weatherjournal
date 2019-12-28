@@ -17,18 +17,21 @@ let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 
 // fetch()
 const API = "d37ead94fdc7e472dfa0bfc189991efb"
-    //console.log(API)
-    //const getPosts = {
 fetch(`http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${API}`).then(res => res.json())
     .then(posts => {
         console.log(posts);
         const weatherArray = posts;
         console.log(weatherArray);
-        const forecast = weatherArray.weather[0]
-        const city = weatherArray.name
+        const forecast = {
+                weather: weatherArray.weather[0],
+                city: weatherArray.name
+
+            }
+            //console.log(forecast);
+            //const city = weatherArray.name
 
         console.log(forecast);
-        console.log(city);
+        //console.log(city);
 
 
     })
