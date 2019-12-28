@@ -13,32 +13,35 @@ let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 
 // const location = ...
 
-//const query = `api.openweathermap.org/data/2.5/weather?q=${location}&APPID=${API_KEY}`
 
-// fetch()
-const API = "d37ead94fdc7e472dfa0bfc189991efb"
-fetch(`http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${API}`).then(res => res.json())
-    .then(posts => {
-        console.log(posts);
-        const weatherArray = posts;
-        console.log(weatherArray);
-        const forecast = {
+const button = document.getElementById('generate')
+
+button.addEventListener('click', function(event) {
+
+    const city = document.getElementById('zip').value;
+    const feelings = document.getElementById('feelings').value;
+    const API = "d37ead94fdc7e472dfa0bfc189991efb"
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},can&APPID=${API}`).then(res => res.json())
+        .then(posts => {
+            const weatherArray = posts;
+            const forecast = {
                 weather: weatherArray.weather[0],
-                city: weatherArray.name
+                city: weatherArray.name,
+                temp: weatherArray.main
 
             }
-            //console.log(forecast);
-            //const city = weatherArray.name
-
-        console.log(forecast);
-        //console.log(city);
 
 
-    })
+            console.log(forecast);
+            console.log(feelings);
 
 
 
-//}
+        })
+});
+
+
+
 // get the data back as an object
 
 // store the information you want from the response into a new variable
@@ -48,4 +51,4 @@ fetch(`http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${API}`)
 // ... your feelings
 // }
 
-// send that to the server..
+/* send that to the server */
