@@ -23,13 +23,13 @@ button.addEventListener('click', function(event) {
         .then(posts => {
             const weatherArray = posts;
             let myFeelings = {
-                feelings: feelings,
-                weather: weatherArray.weather[0],
-                city: weatherArray.name,
-                temp: weatherArray.main
+                    feelings: feelings,
+                    weather: weatherArray.weather[0],
+                    city: weatherArray.name,
+                    temp: weatherArray.main
 
-            }
-            console.log(myFeelings);
+                }
+                //console.log(myFeelings);
             const postData = async(url = '', data = {}) => {
                 console.log(data);
                 const response = await fetch(url, {
@@ -38,20 +38,21 @@ button.addEventListener('click', function(event) {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    // Body data type must match "Content-Type" header        
-                    //body: JSON.stringify(data),
+                    //body: data type must match "Content-Type" header        
+                    body: JSON.stringify(data),
+
                 });
 
-                // try {
-                //     const newData = await response.json();
-                //     console.log(newData);
-                //     return newData;
-                // } catch (error) {
-                //     //console.log("error", error);
-                // }
+                try {
+                    const newData = response.json();
+                    console.log(newData);
+                    return newData;
+                } catch (error) {
+                    console.log("error", error);
+                }
             }
 
-            postData('/addentry', myFeelings)
+            postData('/addentry', { myFeelings })
         })
 
     // send that to the server
