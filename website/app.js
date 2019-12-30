@@ -7,54 +7,63 @@ let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 
 // get your element on the page
 
-const button = document.getElementById('generate')
+//const button = document.getElementById('generate')
 
 // get the data back as an object
 
 // store the information you want from the response into a new variable
 // send that to the server
 
-button.addEventListener('click', function(event) {
+// send that to the server
 
-    const API = "d37ead94fdc7e472dfa0bfc189991efb"
-    const city = document.getElementById('zip').value;
+let baseURL = 'http://api.openweathermap.org/data/2.5/weather?q='
+let apiKey = 'can&APPID=d37ead94fdc7e472dfa0bfc189991efb';
+document.getElementById('generate').addEventListener('click', performAction);
+
+function performAction(e) {
     const feelings = document.getElementById('feelings').value;
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},can&APPID=${API}`).then(res => res.json())
-        .then(posts => {
-            const weatherArray = posts;
-            let myFeelings = {
-                    feelings: feelings,
-                    weather: weatherArray.weather[0],
-                    city: weatherArray.name,
-                    temp: weatherArray.main
+    const city = document.getElementById('zip').value + ",";
+    getWeather(baseURL, city, apiKey)
 
-                }
-                //console.log(myFeelings);
-            const postData = async(url = '', data = {}) => {
-                console.log(data);
-                const response = await fetch(url, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    //body: data type must match "Content-Type" header        
-                    body: JSON.stringify(data),
+    .then(function(data) {
+        //add data to POST request
+        postData('/addentry', { weather: data.weather, weatherInformation: data.main, cityName: data.name, feelings: feelings });
+    });
 
-                });
+};
 
-                try {
-                    const newData = response.json();
-                    console.log(newData);
-                    return newData;
-                } catch (error) {
-                    console.log("error", error);
-                }
-            }
+const getWeather = async(baseURL, city, key) => {
 
-            postData('/addentry', { myFeelings })
-        })
+    const res = await fetch(baseURL + city + apiKey)
+    try {
 
-    // send that to the server
+        const data = await res.json();
+        console.log(data)
+        return data;
+    } catch (error) {
+        console.log("error", error);
+        // appropriately handle the error
+    }
+}
 
-})
+
+const postData = async(url = '', data = {}) => {
+    console.log(data);
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        //body: data type must match "Content-Type" header
+        body: JSON.stringify(data),
+        body: console.log(data)
+    });
+    try {
+        const newData = response.json();
+        console.log(newData);
+        return newData;
+    } catch (error) {
+        console.log("error", error);
+    }
+}
