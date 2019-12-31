@@ -48,7 +48,6 @@ const getWeather = async(baseURL, city, key) => {
 
 
 const postData = async(url = '', data = {}) => {
-    console.log(data);
     const response = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
@@ -57,13 +56,13 @@ const postData = async(url = '', data = {}) => {
         },
         //body: data type must match "Content-Type" header
         body: JSON.stringify(data),
-        body: console.log(data)
+
     });
-    try {
-        const newData = response.json();
-        console.log(newData);
-        return newData;
-    } catch (error) {
-        console.log("error", error);
-    }
+    //      try {
+    //          const newData = data;
+    //          console.log(newData);
+    //          return newData;
+    //      } catch (error) {
+    //          console.log("error", error);
+    //      }
 }
