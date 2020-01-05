@@ -21,22 +21,10 @@ document.getElementById('generate').addEventListener('click', performAction);
 
 async function performAction() {
     let d = new Date();
-    let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear() + d.getMilliseconds();
+    let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
     const feelings = document.getElementById('feelings').value;
+    const author = document.getElementById('author').value;
     const city = document.getElementById('zip').value + ",";
-
-    /*     getWeather(BASEURL, city, APIKEY)
-            .then(async function(data) {
-                //add data to POST request
-                const { weather, main, name: cityName } = data;
-                postData('/addentry', {
-                    weather,
-                    weatherInformation: main,
-                    cityName,
-                    feelings,
-                    date: newDate
-                });
-            }); */
 
     const data = await getWeather(BASEURL, city, APIKEY);
     const { weather, main, name: cityName } = data;
@@ -45,10 +33,16 @@ async function performAction() {
         weatherInformation: main,
         cityName,
         feelings,
-        date: newDate
+        date: newDate,
+        author
     });
+
     console.log(response)
+
+    const updatedUI = await updateUI();
+
 };
+
 
 const getWeather = async(BASEURL, city, key) => {
     try {
@@ -80,14 +74,18 @@ const postData = async(url = '', data = {}) => {
         console.log("error", error);
     }
 
+}
 
-
-
-    //      try {
-    //          const newData = data;
-    //          console.log(newData);
-    //          return newData;
-    //      } catch (error) {
-    //          console.log("error", error);
-    //      }
+const updateUI = async() => {
+    const request = await fetch('/all');
+    try {
+        let allData = await request.json();
+        console.log(allData);
+        const date = document.getElementById('date').innerHTML = allData.Danielle.date;
+        const temp = document.getElementById('temp').innerHTML = allData.Danielle.weather[0].main;
+        const content = document.getElementById('content').innerHTML = allData.Danielle.feelings;
+        // console.log(allData);
+    } catch (error) {
+        console.log("error", error);
+    }
 }
