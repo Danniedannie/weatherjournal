@@ -1,19 +1,3 @@
-//require('dotenv').config()
-/* Global Variables */
-
-// Create a new date instance dynamically with JS
-
-// get your element on the page
-
-//const button = document.getElementById('generate')
-
-// get the data back as an object
-
-// store the information you want from the response into a new variable
-// send that to the server
-
-// send that to the server
-
 const BASEURL = 'http://api.openweathermap.org/data/2.5/weather?q='
 const APIKEY = 'can&APPID=d37ead94fdc7e472dfa0bfc189991efb';
 
@@ -23,7 +7,7 @@ async function performAction() {
     let d = new Date();
     let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
     const feelings = document.getElementById('feelings').value;
-    const author = document.getElementById('author').value;
+    const author = "test";
     const city = document.getElementById('zip').value + ",";
 
     const data = await getWeather(BASEURL, city, APIKEY);
@@ -81,10 +65,10 @@ const updateUI = async() => {
     try {
         let allData = await request.json();
         console.log(allData);
-        const date = document.getElementById('date').innerHTML = allData.Danielle.date;
-        const temp = document.getElementById('temp').innerHTML = allData.Danielle.weather[0].main;
-        const content = document.getElementById('content').innerHTML = allData.Danielle.feelings;
-        // console.log(allData);
+        const date = document.getElementById('date').innerHTML = allData.test.date;
+        const temp = document.getElementById('temp').innerHTML = allData.test.weather[0].main;
+        const content = document.getElementById('content').innerHTML = allData.test.feelings;
+        const city = document.getElementById('city').innerHTML = allData.test.cityName;
     } catch (error) {
         console.log("error", error);
     }
